@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "545991163741",
+    "firebase_url": "https://homeautomation---test-default-rtdb.firebaseio.com",
+    "project_id": "homeautomation---test",
+    "storage_bucket": "homeautomation---test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545991163741:android:f45551da1b9945ee98f2b4",
+        "android_client_info": {
+          "package_name": "com.example.homeautomation_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545991163741-5npgvou34slfrsuo1933c7suocs6m2ic.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.homeautomation_project",
+            "certificate_hash": "3f202f5d9da64fffa566b6e3411729b826b5fa38"
+          }
+        },
+        {
+          "client_id": "545991163741-ai76nlnno90jit2fb5am31rmftkolskd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJjFimbceOPsYPGMT3SxiYz2D95Q4b4vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545991163741-ai76nlnno90jit2fb5am31rmftkolskd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545991163741:android:869b08dae2bfa8f298f2b4",
+        "android_client_info": {
+          "package_name": "com.example.homeautomationcomplete"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545991163741-ai76nlnno90jit2fb5am31rmftkolskd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJjFimbceOPsYPGMT3SxiYz2D95Q4b4vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545991163741-ai76nlnno90jit2fb5am31rmftkolskd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

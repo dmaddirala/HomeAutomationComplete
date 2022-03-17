@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Home Automation Complete</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_switches">Switches</string>
+    <string name="title_electricity_monitor">Electricity Monitor</string>
+    <string name="title_plant_watering">Plant Watering</string>
+    <string name="title_plant_watering_controls">Plant Watering Controls</string>
+</resources>
