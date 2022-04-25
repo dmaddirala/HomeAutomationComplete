@@ -15,7 +15,7 @@
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:background="@drawable/background"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/dark_grey"
         android:layout_marginTop="50dp"
         android:text="FAN"
         android:textColor="#FFFFFF" />
@@ -26,7 +26,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/background"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/dark_grey"
         android:text="LIGHT"
         android:textColor="#FFFFFF" />
 
