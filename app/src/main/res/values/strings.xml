@@ -5,6 +5,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_switches">Switches</string>
     <string name="title_electricity_monitor">Electricity Monitor</string>
+    <string name="title_readings">Home Readings</string>
     <string name="title_plant_watering">Plant Watering</string>
     <string name="title_plant_watering_controls">Plant Watering Controls</string>
 </resources>

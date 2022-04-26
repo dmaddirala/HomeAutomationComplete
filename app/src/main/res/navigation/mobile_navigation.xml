@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.homeautomationcomplete.ui.electricity.ElectricityMonitorFragment"
-        android:label="@string/title_electricity_monitor"
-        tools:layout="@layout/fragment_electricity_monitor" />
+        android:name="com.example.homeautomationcomplete.ui.readings.ReadingsFragment"
+        android:label="@string/title_readings"
+        tools:layout="@layout/fragment_readings" />
 
     <fragment
         android:id="@+id/navigation_notifications"
