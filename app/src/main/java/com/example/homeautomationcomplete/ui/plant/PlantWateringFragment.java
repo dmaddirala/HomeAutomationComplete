@@ -5,12 +5,15 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,19 +51,21 @@ public class PlantWateringFragment extends Fragment {
     private PlantWateringViewModel plantWateringViewModel;
     private FragmentPlantWateringBinding binding;
 
-    private BiometricPrompt biometricPrompt;
-    private BiometricPrompt.PromptInfo promptInfo;
-
     private ListView listView;
     private TextView plantTxt;
-    private TextView timerTxt;
+    private TextView timeTxt;
+    private TextView dateTxt;
+    private TextView countdownTxt;
+    private TextView dialogMessage;
+    private EditText startTimeEt;
+    private EditText durationEt;
     private FloatingActionButton addTimerbtn;
     private ImageButton waterBtn;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
-    private TextView dialogMessage;
     private Dialog dialogDelete;
     private Button yesBtn, noBtn;
+    private Button startTimerBtn;
 
     private ArrayList<PlantTimer> plantTimers;
     private TimerAdapter adapter;
@@ -99,8 +104,13 @@ public class PlantWateringFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         plantTxt = view.findViewById(R.id.tv_plant);
-        timerTxt = view.findViewById(R.id.tv_timer);
+        timeTxt = view.findViewById(R.id.tv_time);
+        dateTxt = view.findViewById(R.id.tv_date);
+        countdownTxt = view.findViewById(R.id.tv_countdown);
+        startTimeEt = view.findViewById(R.id.et_start_time);
+        durationEt = view.findViewById(R.id.et_duration);
         waterBtn = view.findViewById(R.id.btn_plant);
+        startTimerBtn = view.findViewById(R.id.btn_start_timer);
         addTimerbtn = view.findViewById(R.id.btn_add_timer);
         listView = view.findViewById(R.id.list_view);
 
@@ -158,7 +168,7 @@ public class PlantWateringFragment extends Fragment {
         yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(myRef.child("Timers").child(deletedSrNumber).get().toString() != null){
+                if (myRef.child("Timers").child(deletedSrNumber).get().toString() != null) {
                     myRef.child("Timers").child(deletedSrNumber).removeValue();
                 }
                 dialogDelete.dismiss();
@@ -169,6 +179,31 @@ public class PlantWateringFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialogDelete.dismiss();
+            }
+        });
+
+        startTimerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int startTime = startTimeEt.getText().toString().isEmpty() ? 0 : Integer.valueOf(startTimeEt.getText().toString());
+                int duration = durationEt.getText().toString().isEmpty() ? 0 : Integer.valueOf(durationEt.getText().toString());
+                startTimeEt.setText("");
+                durationEt.setText("");
+                if (startTime > 0 && duration > 0) {
+                    new CountDownTimer(startTime*1000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+                            countdownTxt.setText("" + millisUntilFinished / 1000);
+                        }
+
+                        public void onFinish() {
+                            Toast.makeText(getActivity(), "Watering Started", Toast.LENGTH_SHORT).show();
+                            myRef.child("PlantTimerDuration").setValue(duration);
+                        }
+                    }.start();
+                } else {
+                    Toast.makeText(getActivity(), "Please enter Time & Duration", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -198,20 +233,13 @@ public class PlantWateringFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    plantTimers.clear();
-                    lastTimerIndex = 0;
                     if (dataSnapshot.exists()) {
-                        for (DataSnapshot item : dataSnapshot.getChildren()) {
-                            String srNumber = item.getKey();
-                            String oldDate = item.getValue().toString();
-                            Date fullDate = new SimpleDateFormat("dd-mm-yy HH:mm:ss").parse(oldDate);
-                            String time = new SimpleDateFormat("hh.mm aa").format(fullDate);
-                            String date = new SimpleDateFormat("E, dd MMMM").format(fullDate);
-                            plantTimers.add(new PlantTimer(time, date, srNumber));
-                            int srNum = Integer.parseInt(srNumber);
-                            lastTimerIndex = (srNum > lastTimerIndex) ? srNum : lastTimerIndex;
-                        }
-                        adapter.notifyDataSetChanged();
+                        String oldDate = dataSnapshot.getValue().toString();
+                        Date fullDate = new SimpleDateFormat("dd-MM-yy HH:mm:ss").parse(oldDate);
+                        String time = new SimpleDateFormat("hh.mm aa").format(fullDate);
+                        String date = new SimpleDateFormat("E, dd MMMM YYYY").format(fullDate);
+                        timeTxt.setText("-" + time);
+                        dateTxt.setText("-" + date);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -271,7 +299,7 @@ public class PlantWateringFragment extends Fragment {
         String srNumber = String.valueOf(lastTimerIndex + 1);
         plantTimers.add(new PlantTimer(finalTime, finalDate, srNumber));
         adapter.notifyDataSetChanged();
-        myRef.child("Timers").child(srNumber).setValue(dateTime);
+        myRef.child("Timers").setValue(dateTime);
     }
 
     private String addLeadingZeors(int number) {

@@ -130,21 +130,6 @@ public class SwitchesFragment extends Fragment {
 
 
     private void incomingCalls() {
-        myRef.child("IP").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                url = "http://" + dataSnapshot.getValue(String.class);
-                httpGetRequest(url);
-                Toast.makeText(getActivity(), "IP Changed: " + url, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                httpGetRequest(url);
-                Toast.makeText(getActivity(), "IP Changed Failed: ", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         myRef.child("Fan").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -158,6 +143,7 @@ public class SwitchesFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
         myRef.child("Light").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -171,6 +157,7 @@ public class SwitchesFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
         myRef.child("Lock").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -197,25 +184,25 @@ public class SwitchesFragment extends Fragment {
 
             // this means we can use biometric sensor
             case BiometricManager.BIOMETRIC_SUCCESS:
-                showShortToast("You can use the fingerprint");
+                showLongToast("You can use the fingerprint");
                 isFingerprintAvailable = true;
                 break;
 
             // this means that the device doesn't have fingerprint sensor
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-                showShortToast("This device doesnot have a fingerprint sensor");
+                showLongToast("This device doesnot have a fingerprint sensor");
                 isFingerprintAvailable = false;
                 break;
 
             // this means that biometric sensor is not available
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-                showShortToast("The biometric sensor is currently unavailable");
+                showLongToast("The biometric sensor is currently unavailable");
                 isFingerprintAvailable = false;
                 break;
 
             // this means that the device doesn't contain your fingerprint
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                showShortToast("Your device doesn't have fingerprint saved,please check your security settings");
+                showLongToast("Your device doesn't have fingerprint saved,please check your security settings");
                 isFingerprintAvailable = false;
                 break;
         }
@@ -258,32 +245,6 @@ public class SwitchesFragment extends Fragment {
                 .setDescription("Use your fingerprint to " + (isLockOpen ? "close" : "open") + " the lock")
                 .setNegativeButtonText("Cancel")
                 .build();
-    }
-
-    private void httpGetRequest(String url1) {
-//        startLoading();
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url1, response -> {
-            //mTextView.setText(response);
-
-//            stopLoading();
-            if (response.equals("Hello World!!")) {
-                Toast.makeText(getActivity(), "Ready..!", Toast.LENGTH_SHORT).show();
-            } else if (response.equals("FAN")) {
-                Toast.makeText(getActivity(), "FAN Switched", Toast.LENGTH_SHORT).show();
-            } else if (response.equals("LIGHT")) {
-                Toast.makeText(getActivity(), "LIGHT Switched", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), "" + response, Toast.LENGTH_SHORT).show();
-            }
-
-
-        }, error -> {
-//            stopLoading();
-            Toast.makeText(getActivity(), "Change Your WiFi Network", Toast.LENGTH_LONG).show();
-
-        });
-        queue.add(stringRequest);
     }
 
     private void showShortToast(String message) {
